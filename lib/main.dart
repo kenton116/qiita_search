@@ -30,9 +30,6 @@ class MainApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 25,
             )),
-        textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: Colors.white,
-            ),
       ),
       home: const SearchScreen(),
     );

@@ -1,25 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:qiita_search/models/article.dart';
+import 'package:qiita_search/models/post-article.dart';
 import 'package:intl/intl.dart';
 import 'package:qiita_search/screens/article_screen.dart';
+import 'package:qiita_search/models/article.dart';
 
-class ArticleContainer extends StatelessWidget {
-  const ArticleContainer({
+class PostArticleContainer extends StatelessWidget {
+  const PostArticleContainer({
     Key? key,
     required this.article,
   }) : super(key: key);
 
-  final Article article;
+  final PostArticle article;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 16,
-      ),
-      child: GestureDetector(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Text(
+            article.postUserEmail,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.grey,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              article.comment,
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8,),
+        GestureDetector(
           onTap: () {
-            final Article convertedArticle = article;
+            final Article convertedArticle = article.toArticle();
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: ((context) => ArticleScreen(article: convertedArticle)),
@@ -65,11 +93,11 @@ class ArticleContainer extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: NetworkImage(article.user.profileImageUrl),
+                      backgroundImage: NetworkImage(article.userImage),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      article.user.id,
+                      article.userId,
                       style: const TextStyle(
                         fontSize: 12,
                       ),
@@ -80,6 +108,15 @@ class ArticleContainer extends StatelessWidget {
             ),
           ),
         ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Divider(
+            color: Colors.grey,
+            height: 30,
+            thickness: 1,
+          ),
+        ),
+      ],
     );
   }
 }
